@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@400;700;900&display=swap');
+
+html {
+    scroll-behavior: smooth;
+}
+
+body { 
+    font-family: 'Montserrat', sans-serif; 
+}
+
+.font-racing { 
+    font-family: 'Bangers', cursive;
+    letter-spacing: 0.05em;
+}
+
+/* --- Patrón Bandera a Cuadros --- */
+.checkered-pattern {
+    background-image: linear-gradient(45deg, #000 25%, transparent 25%), 
+                      linear-gradient(-45deg, #000 25%, transparent 25%), 
+                      linear-gradient(45deg, transparent 75%, #000 75%), 
+                      linear-gradient(-45deg, transparent 75%, #000 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px 10px, 10px 0;
+    background-color: #fff;
+}
+
+/* --- Video --- */
+.video-docker video {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
+
+/* --- Animaciones --- */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+.animate-bounce-slow {
+    animation: bounce 2s infinite;
+}
+
+.fade-in { 
+    animation: fadeIn 0.8s ease-out forwards; 
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Nueva animación para el botón con retraso */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden-initially {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.fade-in-up {
+    animation: fadeInUp 1s ease-out forwards;
+    pointer-events: auto;
+}
+
+/* --- Componentes --- */
+.btn-primary {
+    display: inline-block;
+    padding: 1.25rem 2.5rem;
+    margin-top: 25rem;
+    background-color: #facc15; 
+    color: #1e3a8a; 
+    transition: all 0.3s;
+    border-radius: 0.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.875rem;
+    box-shadow: 0 6px 0 #b38f00;
+    cursor: pointer;
+    position: relative;
+}
+
+.btn-primary:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+  .btn-secundary {
+            display: inline-block; padding: 1.25rem 2.5rem;
+            background-color: #facc15; color: #1e3a8a; 
+            transition: all 0.3s; border-radius: 0.75rem;
+            font-weight: 900; text-transform: uppercase;
+            letter-spacing: 0.1em; font-size: 0.875rem;
+            box-shadow: 0 6px 0 #b38f00; cursor: pointer;
+            position: relative;
+        }
+        .btn-secundary:active { transform: translateY(4px); box-shadow: none; }
+
+.counter-box {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 1rem;
+    border-bottom: 4px solid #ef4444; 
+    min-width: 80px;
+}
+.counter-num {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: #facc15;
+}
+@media (min-width: 768px) {
+    .counter-num { font-size: 3.75rem; }
+}
+.counter-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 700;
+    margin-top: 0.5rem;
+}
+
+.btn-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2.5rem;
+    background-color: #2563eb; 
+    color: white;
+    border-radius: 1rem;
+    font-weight: 900;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    box-shadow: 0 5px 0 #1e3a8a;
+}
+
+/* --- RSVP Card --- */
+        .rsvp-card {
+            width: 100%; max-width: 28rem; background-color: white;
+            border-radius: 2rem; border: 4px solid #1e3a8a; overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .input-custom {
+            width: 100%; padding: 1.25rem 1.5rem; background-color: #f8fafc;
+            border: 2px solid #e2e8f0; border-radius: 1rem; text-align: center;
+            font-weight: 700; text-transform: uppercase; outline: none;
+        }
+        .btn-search {
+            width: 100%; background-color: #dc2626; color: white;
+            padding: 1.25rem; border-radius: 1rem; font-weight: 900;
+            text-transform: uppercase; box-shadow: 0 5px 0 #991b1b;
+        }
+
+
+
+/* --- Confeti --- */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: fall 3s linear forwards;
+}
+@keyframes fall {
+    to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+.modal-box {
+    background-color: white;
+    border-radius: 2rem;
+    padding: 2.5rem;
+    max-width: 20rem;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 4px solid #facc15;
+    transition: all 0.3s;
+}

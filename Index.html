@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Acelera a mi Fiesta! - Hot Wheels</title>
+    <!-- Framework de estilos Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-white text-slate-800">
+
+    <!-- SECCIÓN 1: PORTADA CON VIDEO -->
+    <section class="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center">
+        <div class="absolute inset-0 video-docker">
+            <video class="absolute" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1594787318286-3d835c1d207f?auto=format&fit=crop&q=80&w=1200">
+                <source src="assets/vid/Bebingo.mp4" type="video/mp4">
+            </video>
+        </div>
+
+     <div class="flex flex-col items-center pb-12 w-full">
+                <a href="#confirmacion" id="main-cta" class="btn-primary mb-6 hidden-initially">
+                    ¡Confirmar Asistencia!
+                </a>
+                  <div class="absolute bottom-12 z-10 animate-bounce-slow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 2: COUNTDOWN -->
+    <section class="py-20 bg-blue-900 text-center px-6 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 checkered-pattern"></div>
+        <h2 class="font-racing text-5xl mb-10 text-white italic">¡ARRANCAMOS EN...!</h2>
+        <div id="countdown" class="flex justify-center gap-4 md:gap-10">
+            <div class="counter-box">
+                <span id="days" class="counter-num">00</span>
+                <span class="counter-label">Días</span>
+            </div>
+            <div class="counter-box">
+                <span id="hours" class="counter-num">00</span>
+                <span class="counter-label">Horas</span>
+            </div>
+            <div class="counter-box">
+                <span id="minutes" class="counter-num">00</span>
+                <span class="counter-label">Min</span>
+            </div>
+            <div class="counter-box">
+                <span id="seconds" class="counter-num">00</span>
+                <span class="counter-label">Seg</span>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full h-2 checkered-pattern"></div>
+    </section>
+
+    <!-- SECCIÓN UBICACIÓN -->
+    <section id="ubicacion" class="py-20 px-6 bg-white flex flex-col items-center">
+        <div class="max-w-4xl w-full text-center space-y-8">
+            <h2 class="font-racing text-5xl md:text-7xl text-blue-900 italic uppercase">Ubicación</h2>
+            <div class="w-24 h-2 bg-yellow-400 mx-auto rounded-full"></div>
+            
+            <p class="text-xl font-bold text-slate-700 italic">
+                Teenair Trampoline Arena<br>
+                <span class="text-base font-normal text-slate-500">Las Plazas Outlet Monterrey</span>
+            </p>
+
+            <!-- Mapa de Google -->
+            <div class="w-full h-[400px] rounded-[2rem] border-4 border-blue-900 overflow-hidden shadow-2xl">
+                <!-- Reemplaza el src con la ubicación exacta si lo deseas -->
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3592.920033973376!2d-100.30795281298181!3d25.773204718929676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8662931b571ec2f1%3A0xa63d9864be5a0f2f!2sTeenair%20Trampoline%20Arena!5e0!3m2!1ses-419!2smx!4v1766545079084!5m2!1ses-419!2smx" 
+                    class="w-full h-full border-0" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <!-- Botón para abrir en Google Maps -->
+            <div>
+                <a href="https://maps.app.goo.gl/ehd2kmeKNT2pWJSC9" target="_blank" class="btn-secundary">
+                    Abrir en Google Maps
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 4: RSVP -->
+    <section id="confirmacion" class="min-h-screen flex flex-col items-center justify-center bg-slate-100 py-20 px-6">
+        <div class="rsvp-card">
+            <div class="p-10">
+                <div id="view-search" class="space-y-8">
+                    <div class="text-center">
+                        <h3 class="text-4xl font-racing text-blue-900 italic uppercase">Lista de Pilotos</h3>
+                        <p class="sub-label">Busca tu nombre en la parrilla de salida</p>
+                    </div>
+                    <div class="space-y-5">
+                        <input type="text" id="name-input" placeholder="Nombre del Piloto" class="input-custom">
+                        <button onclick="buscarInvitado()" id="btn-search" class="btn-search">REVISAR LISTA</button>
+                        <p id="error-msg" class="error-text"></p>
+                    </div>
+                </div>
+
+                <div id="view-result" class="hidden space-y-8">
+                    <div id="status-card" class="result-card">
+                        <p id="res-name" class="font-black text-blue-900 text-2xl mb-1 uppercase italic"></p>
+                        <div id="res-info"></div>
+                    </div>
+                    <div id="confirm-panel" class="space-y-6">
+                        <select id="access-select" onchange="activarBoton()" class="input-custom cursor-pointer"></select>
+                        <button id="btn-confirm" onclick="registrarEnSheet()" disabled class="btn-confirm-disabled">
+                            CONFIRMAR CARRERA
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 bg-slate-50 text-center border-t-2 border-slate-100">
+                <p class="footer-tag"> 🏁 HOT WHEELS PARTY 2026 🏁 </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL FINAL -->
+    <div id="modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-blue-950/95 backdrop-blur-md">
+        <div class="modal-box" id="modal-content">
+            <div class="icon-check">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h2 class="font-racing text-4xl text-blue-900 mb-4 italic uppercase">¡LISTO PILOTO!</h2>
+            <p id="modal-text" class="modal-p"></p>
+            <button onclick="location.reload()" class="btn-search">VOLVER AL INICIO</button>
+        </div>
+    </div>
+
+    <div id="confetti-layer" class="fixed inset-0 pointer-events-none z-[60]"></div>
+
+     <!-- FOOTER / MARCA DE AGUA -->
+    <footer class="py-6 bg-slate-100 text-center">
+        <p class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400 opacity-60">
+            Create By: Hummber WebDesigner 2025
+        </p>
+    </footer>
+
+    <!-- Script de lógica -->
+    <script src="js/script.js"></script>
+</body>
+</html>
