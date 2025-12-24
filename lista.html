@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pits Control - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style2.css">
+</head>
+<body class="min-h-screen">
+
+    <!-- LOGIN VIEW -->
+    <div id="login-view" class="flex items-center justify-center min-h-screen p-4">
+        <div class="max-w-md w-full glass-card p-6 md:p-10 rounded-3xl text-center space-y-8">
+            <div class="space-y-2">
+                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-900">Acceso al Panel</h1>
+                <p class="text-slate-500 text-sm">Ingresa tu código de gestión</p>
+            </div>
+            <div class="space-y-4">
+                <input type="password" id="admin-pass" placeholder="Código de acceso" 
+                       class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl text-center text-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                <button onclick="verificarAcceso()" 
+                        class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-lg shadow-blue-200 transition-all active:scale-[0.98]">
+                    Entrar al Dashboard
+                </button>
+                <p id="error-login" class="text-red-500 text-xs font-medium"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard-view" class="hidden p-4 md:p-8 max-w-6xl mx-auto space-y-6 md:space-y-8">
+        
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-slate-200 pb-6 md:pb-8">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Gestión de Invitados</h1>
+                <p class="text-slate-500 text-sm md:text-base font-medium">Resumen de pases y confirmaciones</p>
+            </div>
+            <div class="flex items-center gap-2 w-full md:w-auto">
+                <button onclick="fetchData()" class="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors font-medium text-slate-700 shadow-sm text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Actualizar
+                </button>
+                <button onclick="location.href='/'" class="flex-1 md:flex-none px-4 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors font-medium shadow-sm text-sm text-center">
+                    Salir
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+            <div class="glass-card p-5 md:p-6 rounded-2xl flex items-center gap-4">
+                <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-[10px] md:text-xs font-semibold text-slate-500 uppercase tracking-wider">Grupos</p>
+                    <p id="stat-confirm" class="text-2xl md:text-3xl font-bold text-slate-900">0</p>
+                </div>
+            </div>
+
+            <div class="glass-card p-5 md:p-6 rounded-2xl flex items-center gap-4">
+                <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-[10px] md:text-xs font-semibold text-slate-500 uppercase tracking-wider">Personas</p>
+                    <p id="stat-people" class="text-2xl md:text-3xl font-bold text-slate-900">0</p>
+                </div>
+            </div>
+
+            <div class="glass-card p-5 md:p-6 rounded-2xl flex items-center gap-4">
+                <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-[10px] md:text-xs font-semibold text-slate-500 uppercase tracking-wider">Cancelados</p>
+                    <p id="stat-no" class="text-2xl md:text-3xl font-bold text-slate-900">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="glass-card rounded-2xl md:rounded-3xl overflow-hidden">
+            <div class="w-full">
+                <table class="w-full text-left border-collapse table-auto">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200">
+                            <th class="p-4 md:p-6 text-[10px] md:text-sm font-bold text-slate-600 uppercase tracking-wider">Invitado / Familia</th>
+                            <th class="p-4 md:p-6 text-[10px] md:text-sm font-bold text-slate-600 uppercase tracking-wider text-right">Estatus</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-slate-100">
+                        <!-- Content -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="loader-area" class="p-12 md:p-20 text-center hidden">
+                <div class="loader mb-4"></div>
+                <p class="text-slate-500 text-sm font-medium">Obteniendo datos...</p>
+            </div>
+
+            <div id="empty-area" class="p-12 md:p-20 text-center text-slate-400 font-medium italic text-sm">
+                No hay registros disponibles.
+            </div>
+        </div>
+    </div>
+<script src="js/script2.js"></script>
+</body>
+</html>

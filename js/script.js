@@ -57,7 +57,7 @@ window.addEventListener('load', () => {
 
 
  // --- CONFIGURACIÓN ---
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbweOpTmuqMDyDTI1A3i1NNYeyC8MeBGXgk1VFZQbGoTfZV-jsze23Gmv3pkD58OdlXk/exec";
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzHyQRGSKzWQWiDg4nNYlj3wHJ7uoPVm29shpNcSoM2W9pT5FwsWhnrDjW3Yaizs2Vy/exec";
         
         // La lista debe tener nombres únicos preferiblemente con apellidos
         const LISTA_LOCAL = [
