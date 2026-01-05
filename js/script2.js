@@ -1,80 +1,100 @@
- const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzHyQRGSKzWQWiDg4nNYlj3wHJ7uoPVm29shpNcSoM2W9pT5FwsWhnrDjW3Yaizs2Vy/exec"; // Mismo que en index.html
-        const PASSCODE = "2025"; // Tu clave de admin
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzTkK5VN8kMME4Eu8opy5KFCECc47eHWS-kjwpEQjMRMKX_6wTQk3INJIgy_KkUiYxA/exec"; 
+        const MASTER_PASSWORD = "2025"; 
 
-        function verificarAcceso() {
-            const val = document.getElementById('admin-pass').value;
-            if (val === PASSCODE) {
-                document.getElementById('login-view').classList.add('hidden');
-                document.getElementById('dashboard-view').classList.remove('hidden');
+        let allRows = []; 
+
+        function checkPassword() {
+            const input = document.getElementById('admin-password');
+            const error = document.getElementById('login-error');
+            if (input.value === MASTER_PASSWORD) {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard-content').classList.remove('hidden');
                 fetchData();
             } else {
-                document.getElementById('error-login').textContent = "CÓDIGO DE ACCESO INCÁLIDO";
+                error.classList.remove('hidden');
+                input.value = "";
             }
         }
 
         async function fetchData() {
             const body = document.getElementById('table-body');
             const loader = document.getElementById('loader-area');
-            const empty = document.getElementById('empty-area');
             
             body.innerHTML = "";
             loader.classList.remove('hidden');
-            empty.classList.add('hidden');
 
             try {
                 const response = await fetch(WEB_APP_URL);
-                const data = await response.json();
-                loader.classList.add('hidden');
+                const rawData = await response.json();
                 
-                if (!data || data.length === 0) {
-                    empty.classList.remove('hidden');
-                    return;
-                }
-
-                let totalGrupos = data.length;
-                let totalPersonas = 0;
-                let totalNoAsisten = 0;
-
-                data.forEach(inv => {
-                    const pasesRaw = inv.asistencia || "0";
-                    const numPases = parseInt(pasesRaw);
+                // MAPEO ESTRICTO POR COLUMNAS DE GOOGLE SHEETS
+                // A: 0 (Fecha) | B: 1 (Codigo) | C: 2 (Nombre) | D: 3 (Asistencia)
+                allRows = rawData.map(item => {
+                    const values = Object.values(item); 
                     
-                    const esInactivo = isNaN(numPases) || numPases === 0 || pasesRaw.toString().toLowerCase().includes("no");
-
-                    if (!esInactivo) {
-                        totalPersonas += numPases;
-                    } else {
-                        totalNoAsisten++;
-                    }
-
-                    const row = document.createElement('tr');
-                    row.className = "transition-colors"; 
-                    row.innerHTML = `
-                        <td class="p-4 md:p-6">
-                            <div class="flex items-center gap-2 md:gap-3">
-                                <div class="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 rounded-full ${esInactivo ? 'bg-slate-100 text-slate-400' : 'bg-blue-100 text-blue-600'} flex items-center justify-center text-[10px] md:text-xs font-bold">
-                                    ${inv.nombre.charAt(0)}
-                                </div>
-                                <span class="font-semibold text-slate-600 text-xs md:text-sm truncate max-w-[120px] sm:max-w-none">${inv.nombre}</span>
-                            </div>
-                        </td>
-                        <td class="p-4 md:p-6 text-right">
-                            <span class="inline-flex items-center px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-wide whitespace-nowrap ${esInactivo ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-600'}">
-                                <span class="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full mr-1 md:mr-1.5 ${esInactivo ? 'bg-rose-600' : 'bg-emerald-600'}"></span>
-                                ${esInactivo ? 'No asistirá' : numPases + (numPases === 1 ? ' Pase' : ' Pases')}
-                            </span>
-                        </td>
-                    `;
-                    body.appendChild(row);
+                    return {
+                        codigo: values[1] || "---",
+                        nombre: values[2] || "Sin Nombre",
+                        asistencia: (values[3] || "").toString().trim().toUpperCase()
+                    };
                 });
 
-                document.getElementById('stat-confirm').textContent = totalGrupos;
-                document.getElementById('stat-people').textContent = totalPersonas;
-                document.getElementById('stat-no').textContent = totalNoAsisten;
-
-            } catch (error) {
                 loader.classList.add('hidden');
-                empty.classList.remove('hidden');
-                empty.textContent = "Error de conexión.";
+                renderTable(allRows);
+                updateStats(allRows);
+            } catch (error) {
+                console.error("Error:", error);
+                loader.innerHTML = "<p class='text-rose-500 text-xs font-bold'>ERROR DE CONEXIÓN</p>";
             }
+        }
+
+        function renderTable(data) {
+            const body = document.getElementById('table-body');
+            body.innerHTML = "";
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = "text-sm hover:bg-slate-50 transition-colors border-b border-slate-50";
+                
+                // Validación exacta del "SI"
+                const isSi = row.asistencia === 'SI';
+
+                tr.innerHTML = `
+                    <td class="p-4">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-blue-500 font-black uppercase">CÓDIGO: ${row.codigo}</span>
+                            <span class="font-bold text-slate-800 text-base">${row.nombre}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 text-right">
+                        <span class="px-3 py-1.5 rounded-xl text-[10px] font-black uppercase border-2 ${isSi ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-rose-50 text-rose-600 border-rose-200'}">
+                            ${isSi ? 'SÍ ASISTE' : 'NO ASISTE'}
+                        </span>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function updateStats(data) {
+            let countYes = 0;
+            let countNo = 0;
+
+            data.forEach(row => {
+                if (row.asistencia === "SI") countYes++;
+                else countNo++;
+            });
+
+            document.getElementById('stat-yes').textContent = countYes;
+            document.getElementById('stat-no').textContent = countNo;
+            document.getElementById('stat-total').textContent = data.length;
+        }
+
+        function filterTable() {
+            const query = document.getElementById('table-search').value.toLowerCase();
+            const filtered = allRows.filter(row => 
+                row.nombre.toLowerCase().includes(query) || 
+                row.codigo.toString().toLowerCase().includes(query)
+            );
+            renderTable(filtered);
         }
