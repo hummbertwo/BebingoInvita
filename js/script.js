@@ -8,7 +8,52 @@ const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzTkK5VN8kMME4Eu8op
 
 // BASE DE DATOS DE INVITADOS (CÓDIGO : [LISTA DE NOMBRES])
 const DATABASE = {
-    "123": ["Humberto.", "Daniela."]
+  "482": ["Doña Rosy", "Don Juve"],
+
+  "739": ["Rosy", "Isabel", "Sofía", "Rebeca"],
+
+  "156": ["Elsa", "Héctor", "Héctor", "Itzel"],
+
+  "904": ["Marco", "Ceci", "Christian", "Alexa"],
+
+  "267": ["Dany", "Mayté", "Gerson", "Yasuri", "Dylan"],
+
+  "581": ["Ramiro", "Victoria"],
+
+  "823": ["Mónica", "Daniel", "Ivanna"],
+
+  "349": ["Daniela", "Humberto"],
+
+  "670": ["Martha", "Emilio"],
+
+  "198": ["Armando", "Erika", "Alanna", "Amanda"],
+
+  "754": ["Erika", "Pato"],
+
+  "416": ["Ceci", "Alan", "Ángel"],
+
+  "905": ["Marcela", "Valeria", "Luis", "Bebé"],
+
+  "238": ["Nayeli", "Ivanna", "Luciana"],
+
+  "691": ["Bere", "Isabella"],
+
+  "547": ["Laura", "Emiliano", "Vale"],
+
+  "862": ["Lucero", "Michelle", "Yoyo"],
+
+  "310": ["Javier", "Karla", "Analía", "Elías"],
+
+  "974": ["Joanna", "Janaí"],
+
+  "425": ["Sandra", "Lía", "Elián"],
+
+  "608": ["Brenda", "Angela"],
+
+  "791": ["Perla", "Luis", "Mía"],
+
+  "153": ["Jessy", "Rodrigo", "Zoe"]
+
 };
 
 let invitadosActuales = [];
