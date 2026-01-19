@@ -54,7 +54,9 @@ const DATABASE = {
 
   "153": ["Jessy", "Rodrigo", "Zoe"],
 
-  "174": ["Debany Guerrero"]
+  "174": ["Debany Guerrero"],
+
+  "259": ["Coach Charly", "Lidia", "Carolina", "Sofía", "Daniel"]
 
 };
 
